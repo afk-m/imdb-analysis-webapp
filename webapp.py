@@ -252,18 +252,18 @@ def visualize_data(df, series_data, poster_url):
         # average episode rating, std. dev, median, range
         with col1:
             st.subheader('Ratings')
-            st.markdown(f'Average episode rating: {df['rating_value'].mean():.2f}')
-            st.markdown(f'Standard deviation: {df['rating_value'].std():.2f}')
-            st.markdown(f'Median episode rating: {df['rating_value'].median():.2f}')
+            st.markdown(f"Average episode rating: {df['rating_value'].mean():.2f}")
+            st.markdown(f"Standard deviation: {df['rating_value'].std():.2f}")
+            st.markdown(f"Median episode rating: {df['rating_value'].median():.2f}")
             rating_range = df['rating_value'].max() - df['rating_value'].min()
             st.markdown(f'Range of episode ratings: {rating_range:.2f}')
         with col2:
             st.subheader('Votes')
-            st.markdown(f'Average votecount: {df['votes'].mean():.2f}')
-            st.markdown(f'Standard deviation: {df['votes'].std():.2f}')
-            st.markdown(f'Median vote count: {df['votes'].median():.2f}')
+            st.markdown(f"Average votecount: {df['votes'].mean():.2f}")
+            st.markdown(f"Standard deviation: {df['votes'].std():.2f}")
+            st.markdown(f"Median vote count: {df['votes'].median():.2f}")
             vote_range = df['votes'].max() - df['votes'].min()
-            st.markdown(f'Range of vote counts: {vote_range:.2f}')       
+            st.markdown(f"Range of vote counts: {vote_range:.2f}")       
 
     # raw dataframe for viewing, searching and downloading
     with tab4:
