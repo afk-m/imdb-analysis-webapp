@@ -1,0 +1,9 @@
+streamlit
+matplotlib.pyplot
+pandas
+requests
+re
+seaborn
+bs4
+urllib.parse
+datetime
