@@ -1,7 +1,7 @@
 # IMDb TV Analysis Webapp
 A webapp that can scrape web data and perform simple analysis on a TV Show and its episode data using IMDb
 
-[Use it here!](https://mattni-imdb-tv-data-analysis.streamlit.app/)
+[Use it here!](https://mattni-imdb-tv.streamlit.app/)
 - Average rating per seasion
 - Histogram / Rating Distribution
 - Episode ratings overtime
