@@ -1,4 +1,2 @@
 seaborn
 bs4
-urllib.parse
-datetime
