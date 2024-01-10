@@ -1,4 +1,3 @@
-re
 seaborn
 bs4
 urllib.parse
