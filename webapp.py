@@ -272,7 +272,7 @@ def visualize_data(df, series_data, poster_url):
 
 
 # sidebar for input
-st.sidebar.title('IMDb Data Analysis')
+st.sidebar.title('IMDb TV Data Analysis')
 
 st.sidebar.markdown("""
     Enter the IMDb URL in the following format:\n
