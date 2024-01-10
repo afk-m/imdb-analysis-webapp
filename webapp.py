@@ -18,6 +18,7 @@ def text_to_num(text):
         return float(text)
 
 def is_valid_imdb_url(url):
+    url = url + 'episodes/?season='
     # regex to match proper url and endpoints
     url_pattern = r'^https://www\.imdb\.com/title/tt\d+/episodes/\?season=$'
     # check if url belongs to imdb
@@ -42,7 +43,20 @@ def scrape_data(url):
         st.error(f"An unexpected error occurred: {e}")
 
 def parse_data(html_data, url):
+    # parse overall series data, e.g. rating, vote count, reviewcount
     soup = BeautifulSoup(html_data, 'html.parser')
+    series_rating = soup.find('span', class_='sc-bde20123-1 cMEQkK').text.strip()
+    if '.' in series_rating:
+        series_rating = float(series_rating)
+    else:
+        series_rating = int(series_rating)
+    series_votes = text_to_num(soup.find('div', class_='sc-bde20123-3 gPVQxL').text.strip())
+
+    overall_series_data = [series_rating, series_votes]
+
+    url = url + 'episodes/?season='
+    season_tab_html = scrape_data(url)
+    soup = BeautifulSoup(season_tab_html, 'html.parser')
     seasontabs = soup.find_all('li', {"data-testid" : 'tab-season-entry'})
     seasons = []
     for tab in seasontabs:
@@ -53,6 +67,7 @@ def parse_data(html_data, url):
             print(f"Skipping non-integer season tab: {tab.text.strip()}")
     seasons = range(1, int(seasontabs[-1].text.strip()) + 1)
     show_name = soup.find('h2', class_='sc-a885edd8-9 dcErWY').text.strip()
+    overall_series_data.append(show_name)
 
     # extract image poster url for display when parsing is done
     # use alt and class fields to ensure right image is grabbed 
@@ -65,7 +80,7 @@ def parse_data(html_data, url):
     votesmatch = re.compile(r'\(([^)]*)\)')
 
     cumulative_episode_number = 0
-    show_data = []
+    series_episode_data = []
 
     for season in seasons:
         season_html = scrape_data(url + str(season))
@@ -103,11 +118,12 @@ def parse_data(html_data, url):
 
             # compile all final found and cleaned data into array, print and append to show (turn show into array of arrays)
             episode_data = [season, episode_number, cumulative_episode_number, title, air_date, rating_value, votes, description]
-            show_data.append(episode_data)
+            series_episode_data.append(episode_data)
 
-    return show_data, show_name, poster_url
+    return series_episode_data, overall_series_data, poster_url
 
-def visualize_data(df, show_name, poster_url):
+def visualize_data(df, series_data, poster_url):
+    show_name = series_data[2]
     # empty dataframe check
     if df.empty:
         st.error("No data available for visualization.")
@@ -228,7 +244,10 @@ def visualize_data(df, show_name, poster_url):
         st.table(bottom_10)
 
     with tab3:
+        # overall_series_data = [series_rating, series_votes, series_reviews]
         st.header("Quick Stats")
+        st.markdown(f'Series rating: {series_data[0]}')
+        st.markdown(f'Series vote count: {series_data[1]}')
         col1, col2 = st.columns(2)
         # average episode rating, std. dev, median, range
         with col1:
@@ -265,7 +284,7 @@ url_input = st.sidebar.text_input(f'Enter IMDb URL')
 scrape_button = st.sidebar.button('Scrape Data')
 
 if scrape_button:
-    url_input = url_input + 'episodes/?season='
+    # url_input = url_input + 'episodes/?season='
     print(url_input)
     if is_valid_imdb_url(url_input):
         with st.spinner('Scraping...'):
