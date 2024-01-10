@@ -1,5 +1,3 @@
-pandas
-requests
 re
 seaborn
 bs4
