@@ -57,7 +57,7 @@ def parse_data(html_data, url):
     url = url + 'episodes/?season='
     season_tab_html = scrape_data(url)
     soup = BeautifulSoup(season_tab_html, 'html.parser')
-    seasontabs = soup.find_all('li', {"data-testid" : 'tab-season-entry'})
+    seasontabs = soup.find_all('a', {"data-testid" : 'tab-season-entry'})
     seasons = []
     for tab in seasontabs:
         try:
