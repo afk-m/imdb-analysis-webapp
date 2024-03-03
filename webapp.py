@@ -85,7 +85,7 @@ def parse_data(html_data, url):
     for season in seasons:
         season_html = scrape_data(url + str(season))
         season_soup = BeautifulSoup(season_html, 'html.parser')
-        episodes = season_soup.find_all('div', class_='kyIRYf')
+        episodes = season_soup.find_all('div', class_='sc-f2169d65-1 bomFtL')
 
         for episode in episodes:
             # title found in div of class ipfc-title__text, strip to get rid of leading/trailing whitespace
@@ -112,7 +112,7 @@ def parse_data(html_data, url):
             # find vote count from rating string using regex, first group found, convert to num from text
             votes = text_to_num(re.search(votesmatch, rating).group(1))\
             # airdate located in span with class fyhHWhz- strip whitespace, format to proper date notation and convert to datetime
-            air_date = datetime.strptime(episode.find('span', class_='fyHWhz').text.strip(), r'%a, %b %d, %Y')
+            air_date = datetime.strptime(episode.find('span', class_='sc-f2169d65-10 iZXnmI').text.strip(), r'%a, %b %d, %Y')
             # description located in div of class ipc-html-content-inner-div, strip whitespace from result
             description = episode.find('div', class_='ipc-html-content-inner-div').text.strip()
 
